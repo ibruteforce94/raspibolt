@@ -316,5 +316,7 @@ You now have BTCPay Server running to manage Bitcoin and Lightning payments on y
 **This guide is in no way made by me, I just added some finishing touches, all thanks go to:**
 
 https://github.com/raspibolt/raspibolt/blob/e5624bcf5d1c5fcc6fe3932dfdedd4d3159026f7/guide/bonus/lightning/btcpayserver.md
+
 https://freedomnode.com/blog/how-to-setup-btc-and-lightning-payment-gateway-with-btcpayserver-on-linux-manual-install/
+
 https://docs.btcpayserver.org/Deployment/ManualDeploymentExtended/
