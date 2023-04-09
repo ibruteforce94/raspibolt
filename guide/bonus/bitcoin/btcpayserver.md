@@ -98,7 +98,7 @@ This software is used to build and execute BTCPay Server.
 
 We do not want to run BTCPay Server alongside bitcoind and lightningd because of security reasons. For that we will create a separate user and we will be running the code as the new user.
 
-* Create a new user , add it to bitcoin and lightningd group and open a new session
+* Create a new user , add it to bitcoin and lightningd (or lnd) group and open a new session
 
   ```sh
   $ sudo adduser --disabled-password --gecos "" btcpay
