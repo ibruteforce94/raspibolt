@@ -72,7 +72,7 @@ This software is used to build and execute BTCPay Server.
   $ sudo nano /etc/apt/preferences.d/99microsoft-dotnet.pref
   ```
   
-* Inside the new created file (99microsoft-dotnet.pref) add below text: 
+* Inside the new created file (99microsoft-dotnet.pref) add below text
 
   ```sh
   Package: *
@@ -80,7 +80,7 @@ This software is used to build and execute BTCPay Server.
   Pin-Priority: 1001
   ```
   
-* Then, regular update & install:
+* Then, regular update & install
 
   ```sh
   $ sudo apt update
@@ -130,13 +130,15 @@ Still with user "btcpay", we execute the following commands:
 
 ### NBXplorer configuration
 
+* Create the data folder and a new config file
+
   ```sh
   $ mkdir -p ~/.nbxplorer/Main
   $ cd ~/.nbxplorer/Main
   $ nano settings.config
   ```
 
-* Insert the following lines in the configuration file:
+* Insert the following lines in the configuration file
 
   ```sh
   btc.rpc.cookiefile=/home/bitcoin/.bitcoin/.cookie
@@ -149,13 +151,13 @@ Still with user "btcpay", we execute the following commands:
 
 ### Autostart NBXplorer on boot
 
-First, we go back to user "admin":
+* First, we go back to user "admin"
 
   ```sh
   $ exit
   ```
 
-Then, we use systemd to execute NBXplorer on boot:
+Then, we use systemd to execute NBXplorer on boot
 
 * Create the configuration file in the Nano text editor and copy the following paragraph.
   Save and exit.
@@ -218,7 +220,7 @@ With user "btcpay", we execute the following commands:
 
 ### BTCPay Server configuration
 
-  Insert the following lines in the beginning of the configuration file:
+* Insert the following lines in the beginning of the configuration file:
 
   ```sh
   network=mainnet
@@ -238,7 +240,7 @@ With user "btcpay", we execute the following commands:
 
 ### Autostart BTCPay Server on boot
 
-First, we go back to user "admin":
+* First, we go back to user "admin":
 
   ```sh
   $ exit
@@ -311,7 +313,7 @@ With the Tor browser (link this), you can access this onion address from any dev
 **Congratulations!**
 You now have BTCPay Server running to manage Bitcoin and Lightning payments on your own node.
 
-**This guide is in no way only made by me, all thanks go to:**
+**This guide is in no way made by me, I just added some finishing touches, all thanks go to:**
 
 https://github.com/raspibolt/raspibolt/blob/e5624bcf5d1c5fcc6fe3932dfdedd4d3159026f7/guide/bonus/lightning/btcpayserver.md
 https://freedomnode.com/blog/how-to-setup-btc-and-lightning-payment-gateway-with-btcpayserver-on-linux-manual-install/
