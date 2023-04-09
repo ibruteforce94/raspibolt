@@ -66,7 +66,7 @@ PostgreSQL is used as data storage. You can install it with:
 
 This software is used to build and execute BTCPay Server.
 
-* Install .NET SDK 6.0
+* Create /etc/apt/preferences.d/99microsoft-dotnet.pref
 
   ```sh
   $ sudo nano /etc/apt/preferences.d/99microsoft-dotnet.pref
