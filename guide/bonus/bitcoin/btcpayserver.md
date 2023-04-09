@@ -38,7 +38,7 @@ PostgreSQL is used as data storage. You can install it with:
   $ sudo apt -y install postgresql postgresql-contrib
   ```
 
-* Create PostgreSQL database for NBXplorer
+* Create PostgreSQL database for NBXplorer (change the default password and write it down, you will need it later)
 
   ```sh
   $ sudo -u postgres psql
@@ -50,7 +50,7 @@ PostgreSQL is used as data storage. You can install it with:
   postgres=# \q
   ```
   
-* Create PostgreSQL database for BTCPayServer
+* Create PostgreSQL database for BTCPayServer (change the default password and write it down, you will need it later)
 
   ```sh
   $ sudo -u postgres psql
@@ -138,7 +138,7 @@ Still with user "btcpay", we execute the following commands:
   $ nano settings.config
   ```
 
-* Insert the following lines in the configuration file
+* Insert the following lines in the configuration file (instead of the default password, insert the one you written down when making nbxplorer postgres db)
 
   ```sh
   btc.rpc.cookiefile=/home/bitcoin/.bitcoin/.cookie
@@ -220,7 +220,7 @@ With user "btcpay", we execute the following commands:
 
 ### BTCPay Server configuration
 
-* Insert the following lines in the beginning of the configuration file:
+* Insert the following lines in the the configuration file (instead of the default passwords, insert the ones you written down when making nbxplorer and btcpay postgres db)
 
   ```sh
   network=mainnet
