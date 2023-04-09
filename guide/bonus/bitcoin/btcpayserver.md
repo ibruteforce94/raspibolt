@@ -189,7 +189,7 @@ Then, we use systemd to execute NBXplorer on boot
   WantedBy=multi-user.target
   ```
 
-* Enable the service, start it and check log logging output.
+* Enable the service, start it and check logging output.
 
   ```sh
   $ sudo systemctl enable nbxplorer
@@ -273,7 +273,7 @@ Then, we use systemd to execute BTCPayServer on boot:
   WantedBy=multi-user.target
   ```
 
-* Enable the service, start it and check log logging output.
+* Enable the service, start it and check logging output.
 
   ```sh
   $ sudo systemctl enable btcpay
