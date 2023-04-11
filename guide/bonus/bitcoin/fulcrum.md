@@ -54,91 +54,6 @@ Make sure that you have [reduced the database cache of Bitcoin Core](../../bitco
   $ sudo apt install libssl-dev
   ```
 
-### Install zram-swap
-
-zram-swap is a compressed swap in memory and on disk and is necessary for the proper functioning of Fulcrum during the sync process using compressed swap in memory (increase performance when memory usage is high)
-
-* Access to "admin" home folder, clone the repository of GitHub and install zram-swap
-
-  ```sh
-  $ cd /home/admin/
-  $ git clone https://github.com/foundObjects/zram-swap.git 
-  $ cd zram-swap && sudo ./install.sh
-  ```
-
-* Set following size value in zram configuration file. Save and exit
-  
-  ```sh
-  $ sudo nano /etc/default/zram-swap
-  ```
-
-  ```sh
-  #_zram_fraction="1/2" #Comment this line 
-  _zram_fixedsize="10G" #Uncomment and edit
-  ```
-
-* Add kernel parameters to make better use of zram
-
-  ```sh
-  $ sudo nano /etc/sysctl.conf
-  ```
-
-* Here are the lines you’ll want to add at the end of your /etc/sysctl.conf file to make better use of zram. Save and exit
-
-  ```sh
-  vm.vfs_cache_pressure=500
-  vm.swappiness=100
-  vm.dirty_background_ratio=1
-  vm.dirty_ratio=50
-  ```
-
-* Then apply the changes with
-
-  ```sh
-  $ sudo sysctl --system
-  ```
-
-* Restart the service
-
-  ```sh
-  $ sudo systemctl restart zram-swap
-  ```
-
-* Make sure zram was correctly installed, zram prioritized, and autoboot enabled
-
-  ```sh
-  $ sudo cat /proc/swaps
-  ```
-
-* Expected output:
-
-  ```sh
-  Filename                               Type                 Size           Used    Priority
-  /var/swap                              file                 102396         0       -2
-  /dev/zram0                             partition            102396         0        5
-  ```
-
-* Check the status of zram-swap service
-
-  ```sh
-  $ sudo systemctl status zram-swap
-  ```
-
-* Expected output, find *enabled* label:
-
-  ```sh
-  zram-swap.service - zram swap service
-  Loaded: loaded (/etc/systemd/system/zram-swap.service; enabled; vendor preset: enabled)
-  Active: active (exited) since Mon 2022-08-08 00:51:51 CEST; 10s ago
-  Process: 287452 ExecStart=/usr/local/sbin/zram-swap.sh start (code=exited, status=0/SUCCESS)
-  Main PID: 287452 (code=exited, status=0/SUCCESS)
-  CPU: 191ms
-  
-  Aug 08 00:51:51 node systemd[1]: Starting zram swap service...
-  Aug 08 00:51:51 node zram-swap.sh[287471]: Setting up swapspace version 1, size = 4.6 GiB (4972199936 bytes)
-  ...
-  ```
-
 ### Configure Firewall
 
 * Configure the firewall to allow incoming requests
@@ -146,26 +61,6 @@ zram-swap is a compressed swap in memory and on disk and is necessary for the pr
   ```sh
   $ sudo ufw allow 50002/tcp comment 'allow Fulcrum SSL'
   $ sudo ufw allow 50001/tcp comment 'allow Fulcrum TCP'
-  ```
-
-### Configure Bitcoin Core
-
-We need to set up settings in Bitcoin Core configuration file - add new lines if they are not present
-
-* In `bitcoin.conf`, add the following line in "# Connections" section. Save and exit
-
-  ```sh
-  $ sudo nano /data/bitcoin/bitcoin.conf
-  ```
-
-  ```sh
-  zmqpubhashblock=tcp://0.0.0.0:8433
-  ```
-
-* Restart Bitcoin Core
-
-  ```sh
-  $ sudo systemctl restart bitcoind
   ```
 
 ## Installation
@@ -281,19 +176,7 @@ RaspiBolt uses SSL as default for Fulcrum, but some wallets like [BlueWallet](ht
   tcp = 0.0.0.0:50001
   peering = false
   
-  # RPi optimizations
-  bitcoind_timeout = 600
-  bitcoind_clients = 1
-  worker_threads = 1
-  db_mem = 1024.0
-  
-  # 4GB RAM (default)
-  db_max_open_files = 200
-  fast-sync = 1024
-  
-  # 8GB RAM (comment the last two lines and uncomment the next)
-  #db_max_open_files = 400
-  #fast-sync = 2048
+  fast-sync = 5120
   ```
 
 * Exit "fulcrum" user session to return to "admin" user session
@@ -328,6 +211,7 @@ Fulcrum needs to start automatically on system boot.
   KillSignal=SIGINT
   User=fulcrum
   Type=exec
+  LimitNOFILE=8192
   TimeoutStopSec=300
   RestartSec=30
   Restart=on-failure
@@ -376,45 +260,6 @@ Fulcrum will now index the whole Bitcoin blockchain so that it can provide all n
 DO NOT REBOOT OR STOP THE SERVICE DURING DB CREATION PROCESS. YOU MAY CORRUPT THE FILES - in case of that happening, start sync from scratch by deleting and recreating `fulcrum_db` folder.
 
 💡 Fulcrum must first fully index the blockchain and compact its database before you can connect to it with your wallets. This can take up to ~3.5 - 4 days. Only proceed with the [Desktop Wallet Section](../../bitcoin/desktop-wallet.md) once Fulcrum is ready.
-
-💡 After the initial sync of Fulcrum, if you want to still use zram, you can return to the default zram config following the next instructions
-
-* As user "admin", access to zram config again and return to default config. Save and exit
-  
-  ```sh
-  $ sudo nano /etc/default/zram-swap
-  ```
-
-  ```sh
-  _zram_fraction="1/2"   #Uncomment this line 
-  #_zram_fixedsize="10G" #Comment this line
-  ```
-
-* Then apply the changes with
-
-  ```sh
-  $ sudo sysctl --system
-  ```
-
-* Restart the service
-
-  ```sh
-  $ sudo systemctl restart zram-swap
-  ```
-
-* Make sure the change was correctly done
-
-  ```sh
-  $ sudo cat /proc/swaps
-  ```
-
-* Expected output:
-
-  ```sh
-  Filename                                Type                Size           Used    Priority
-  /var/swap                              file                 102396         0       -2
-  /dev/zram0                             partition            20479          0        5
-  ```
 
 ## Extras
 
@@ -630,30 +475,6 @@ Ensure you are logged with user "admin"
 
   ```sh
   $ sudo ufw delete X
-  ```
-
-### Uninstall the Zram (optional)
-
-* Navigate to zram-swap folder and uninstall
-
-  ```sh
-  $ cd /home/admin/zram-swap
-  $ sudo ./install.sh --uninstall 
-  $ sudo rm /etc/default/zram-swap
-  $ sudo rm -rf /home/admin/zram-swap
-  ```
-
-* Make sure that the change was done
-
-  ```sh
-  $ sudo cat /proc/swaps
-  ```
-
-* Expected output:
-
-  ```sh
-  Filename                                Type                Size           Used    Priority
-  /var/swap                              file                 102396         0       -2
   ```
 
 <br /><br />
