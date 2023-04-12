@@ -203,9 +203,9 @@ Bitcoin Core provides a simple Python program to generate the configuration line
   For this, put a space (` `) in front of the command shown below.
 
   ```sh
-  $  python3 rpcauth.py raspibolt YourPasswordB
+  $  python3 rpcauth.py YourUserName YourPasswordB
   > String to be appended to bitcoin.conf:
-  > rpcauth=raspibolt:00d8682ce66c9ef3dd9d0c0a6516b10e$c31da4929b3d0e092ba1b2755834889f888445923ac8fd69d8eb73efe0699afa
+  > rpcauth=YourUserName:00d8682ce66c9ef3dd9d0c0a6516b10e$c31da4929b3d0e092ba1b9876543215f888445923ac8fd69d8eb73efe0699afa
   ```
 
 * Copy the `rpcauth` line, we'll need to paste it into the Bitcoin config file.
@@ -246,7 +246,7 @@ We'll also set the proper access permissions.
   onlynet = onion
   
   # Connections
-  rpcauth = rpcuser:rpcpasswordhash
+  rpcauth = YourUserName:00d8682ce66c9ef3dd9d0c0a6516b10e$c31da4929b3d0e092ba1b9876543215f888445923ac8fd69d8eb73efe0699afa
   zmqpubrawblock = tcp://0.0.0.0:28332
   zmqpubrawtx = tcp://0.0.0.0:28333
   zmqpubhashtx = tcp://0.0.0.0:28332
