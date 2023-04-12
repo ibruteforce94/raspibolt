@@ -72,7 +72,7 @@ Bitcoin releases are signed by several individuals, each using their own key. To
   $ curl -s "https://api.github.com/repositories/355107265/contents/builder-keys" | grep download_url | grep -oE "https://[a-zA-Z0-9./-]+" | while read url; do curl -s "$url" | gpg --import; done
   ```
 
-Expected output:
+* Expected output:
 
   ```sh
   > gpg: key 17565732E08E5E41: 29 signatures not checked due to missing keys
