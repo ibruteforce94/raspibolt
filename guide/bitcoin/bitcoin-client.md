@@ -560,7 +560,7 @@ When upgrading, there might be breaking changes, or changes in the data structur
   $ curl -s "https://api.github.com/repositories/355107265/contents/builder-keys" | grep download_url | grep -oE "https://[a-zA-Z0-9./-]+" | while read url; do curl -s "$url" | gpg --import; done
   ```
 
-Expected output:
+* Expected output:
 
   ```sh
   > gpg: key 17565732E08E5E41: 29 signatures not checked due to missing keys
@@ -592,7 +592,7 @@ Expected output:
   $ ots --no-cache verify SHA256SUMS.ots -f SHA256SUMS
   ```
 
-The following output is just an example of one of the versions:
+* The following output is just an example of one of the versions:
 
   ```sh
   > Got 1 attestation(s) from https://btc.calendar.catallaxy.com
